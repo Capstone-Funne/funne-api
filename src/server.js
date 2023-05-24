@@ -119,7 +119,7 @@ app.post('/login', async (req, res) => {
     }
 
     const accessToken = jwt.sign({ id: user.id }, process.env.JWT_SECRET, {
-      expiresIn: '10d',
+      expiresIn: process.env.JWT_EXPIRES,
     });
 
     return res.status(200).json({

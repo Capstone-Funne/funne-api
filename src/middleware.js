@@ -4,17 +4,17 @@ const { ClientError } = require('./exception/client-error');
 const { AuthenticationError } = require('./exception/authentication-error');
 
 function authMiddleware(req, _, next) {
-  const bearerToken = req.headers.authorization;
+  const authorizationHeader = req.headers.authorization;
 
   try {
-    if (!bearerToken) {
-      throw new AuthenticationError('Otorisasi token header wajib di sertakan');
+    if (!authorizationHeader) {
+      throw new AuthenticationError('Otorisasi header wajib di sertakan');
     }
 
-    const [tokenType, accessToken] = bearerToken.split(' ');
+    const [tokenType, accessToken] = authorizationHeader.split(' ');
 
     if (tokenType !== 'Bearer') {
-      throw new AuthenticationError('Tipe otorisasi token tidak valid');
+      throw new AuthenticationError('Jenis token otorisasi tidak valid');
     }
 
     if (!accessToken) {

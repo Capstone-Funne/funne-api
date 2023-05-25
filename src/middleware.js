@@ -1,53 +1,61 @@
 const jwt = require('jsonwebtoken');
 
-function authMiddleware(req, res, next) {
-  const bearerToken = req.headers.authorization;
+const { ClientError } = require('./exception/client-error');
+const { AuthenticationError } = require('./exception/authentication-error');
 
-  if (!bearerToken) {
-    return res.status(401).json({
-      status_code: 401,
-      message: 'Bad Request',
-      error: 'Wajib memasukan otorisasi token header',
-    });
-  }
-
-  const [tokenType, accessToken] = bearerToken.split(' ');
-
-  if (tokenType !== 'Bearer') {
-    return res.status(401).json({
-      status_code: 401,
-      message: 'Bad Request',
-      error: 'Tipe otorisasi token tidak valid',
-    });
-  }
-
-  if (!accessToken) {
-    return res.status(401).json({
-      status_code: 401,
-      message: 'Bad Request',
-      error: 'Wajib memasukan akses token',
-    });
-  }
+function authMiddleware(req, _, next) {
+  const authorizationHeader = req.headers.authorization;
 
   try {
-    const payload = jwt.verify(accessToken, process.env.JWT_SECRET);
-    req.user = { id: payload.id };
-    return next();
-  } catch (error) {
-    if (error instanceof jwt.TokenExpiredError) {
-      return res.status(401).json({
-        status_code: 401,
-        message: 'Bad Request',
-        error: 'Akses token sudah kedaluwarsa',
-      });
+    if (!authorizationHeader) {
+      throw new AuthenticationError('Otorisasi header wajib di sertakan');
     }
 
-    return res.status(401).json({
-      status_code: 401,
-      message: 'Bad Request',
-      error: 'Akses token tidak valid',
-    });
+    const [tokenType, accessToken] = authorizationHeader.split(' ');
+
+    if (tokenType !== 'Bearer') {
+      throw new AuthenticationError('Jenis token otorisasi tidak valid');
+    }
+
+    if (!accessToken) {
+      throw new AuthenticationError('Akses token wajib di sertakan');
+    }
+
+    try {
+      const payload = jwt.verify(accessToken, process.env.JWT_SECRET);
+      req.user = { id: payload.id };
+
+      return next();
+    } catch (jwtError) {
+      if (jwtError instanceof jwt.TokenExpiredError) {
+        throw new AuthenticationError('Akses token sudah kedaluwarsa');
+      }
+
+      throw new AuthenticationError('Akses token tidak valid');
+    }
+  } catch (error) {
+    return next(error);
   }
 }
 
-module.exports = { authMiddleware };
+// Express error middleware
+// Reference: https://expressjs.com/en/guide/error-handling.html#writing-error-handlers
+// eslint-disable-next-line no-unused-vars
+function errorMiddleware(error, req, res, next) {
+  if (error instanceof ClientError) {
+    return res.status(error.statusCode).json({
+      status_code: error.statusCode,
+      message: error.message,
+      data: null,
+    });
+  }
+
+  console.error(error);
+  return res.status(500).json({
+    status_code: 500,
+    message: 'Internal Server Error',
+    data: null,
+  });
+}
+
+module.exports = { authMiddleware, errorMiddleware };

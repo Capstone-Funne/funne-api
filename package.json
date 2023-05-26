@@ -5,6 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start": "node src/server.js",
+    "format": "prettier --write \"src/**/*.js\"",
     "migrate": "prisma migrate dev",
     "generate": "prisma generate",
     "studio": "prisma studio"

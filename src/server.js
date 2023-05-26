@@ -4,7 +4,7 @@ const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 
 const { database } = require('./database');
-const { errorMiddleware } = require('./middleware');
+const { errorMiddleware, authMiddleware } = require('./middleware');
 const { InvariantError } = require('./exception/invariant-error');
 
 const PORT = process.env.PORT || 5000;
@@ -108,6 +108,30 @@ app.post('/login', async (req, res, next) => {
               `https://api.dicebear.com/6.x/initials/svg?seed=${user.name}`
             ),
         },
+      },
+    });
+  } catch (error) {
+    return next(error);
+  }
+});
+
+app.get('/users/me', authMiddleware, async (req, res, next) => {
+  try {
+    const user = await database.user.findFirst({ where: { id: req.user.id } });
+
+    return res.status(200).json({
+      status_code: 200,
+      message: 'OK',
+      data: {
+        id: user.id,
+        email: user.email,
+        name: user.name,
+        gender: user.gender,
+        picture:
+          user.picture ??
+          encodeURI(
+            `https://api.dicebear.com/6.x/initials/svg?seed=${user.name}`
+          ),
       },
     });
   } catch (error) {

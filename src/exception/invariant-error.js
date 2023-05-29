@@ -1,10 +1,8 @@
-const { ClientError } = require('./client-error');
+import { ClientError } from './client-error.js';
 
-class InvariantError extends ClientError {
+export class InvariantError extends ClientError {
   constructor(message) {
     super(message, 400);
     this.name = 'InvariantError';
   }
 }
-
-module.exports = { InvariantError };

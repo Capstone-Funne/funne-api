@@ -1,6 +1,5 @@
 {
   "env": {
-    "commonjs": true,
     "es2021": true,
     "node": true
   },
@@ -8,10 +7,14 @@
   "extends": ["airbnb-base", "prettier"],
   "overrides": [],
   "parserOptions": {
-    "ecmaVersion": "latest"
+    "ecmaVersion": "latest",
+    "sourceType": "module"
   },
   "rules": {
     "prettier/prettier": "error",
-    "no-console": "off"
+    "no-console": "off",
+    "import/prefer-default-export": "off",
+    "import/no-default-export": "error",
+    "import/extensions": ["error", "always"]
   }
 }

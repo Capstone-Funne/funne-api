@@ -1,11 +1,11 @@
-const express = require('express');
-const { v4: uuid } = require('uuid');
-const bcrypt = require('bcrypt');
-const jwt = require('jsonwebtoken');
+import express from 'express';
+import { v4 as uuid } from 'uuid';
+import bcrypt from 'bcrypt';
+import jwt from 'jsonwebtoken';
 
-const { database } = require('./database');
-const { errorMiddleware, authMiddleware } = require('./middleware');
-const { InvariantError } = require('./exception/invariant-error');
+import { database } from './database.js';
+import { errorMiddleware, authMiddleware } from './middleware.js';
+import { InvariantError } from './exception/invariant-error.js';
 
 const PORT = process.env.PORT || 5000;
 const EMAIL_REGEX =

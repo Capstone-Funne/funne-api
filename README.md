@@ -12,12 +12,14 @@ For using this API, you need to create `.env` file in root directory of this pro
 
 The following scripts are available:
 
-| Script             | Description                                 |
-| ------------------ | ------------------------------------------- |
-| `npm start`        | Run API server                              |
-| `npm run migrate`  | Create database migration                   |
-| `npm run studio`   | Run prisma studio (_GUI Database explorer_) |
-| `npm run generate` | Generate artifacts for prisma client        |
+| Script             | Description                                              |
+| ------------------ | -------------------------------------------------------- |
+| `pnpm start`       | Run the server                                           |
+| `pnpm start:prod`  | Run database migration for production and run the server |
+| `pnpm db:migrate`  | Create database migration for development                |
+| `pnpm db:studio`   | Run prisma studio (_GUI Database explorer_)              |
+| `pnpm db:generate` | Generate artifacts for prisma client                     |
+| `pnpm format`      | Run code formating with prettier                         |
 
 ### Development Guide
 

@@ -2,13 +2,15 @@
   "name": "funne-api",
   "version": "1.0.0",
   "description": "",
+  "type": "module",
   "main": "index.js",
   "scripts": {
     "start": "node src/server.js",
-    "format": "prettier --write \"src/**/*.js\"",
-    "migrate": "prisma migrate dev",
-    "generate": "prisma generate",
-    "studio": "prisma studio"
+    "start:prod": "prisma migrate deploy && node src/server.js",
+    "db:migrate": "prisma migrate dev",
+    "db:generate": "prisma generate",
+    "db:studio": "prisma studio",
+    "format": "prettier --write \"src/**/*.js\""
   },
   "keywords": [],
   "author": "",

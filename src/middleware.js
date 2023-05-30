@@ -1,9 +1,9 @@
-const jwt = require('jsonwebtoken');
+import jwt from 'jsonwebtoken';
 
-const { ClientError } = require('./exception/client-error');
-const { AuthenticationError } = require('./exception/authentication-error');
+import { ClientError } from './exception/client-error.js';
+import { AuthenticationError } from './exception/authentication-error.js';
 
-function authMiddleware(req, _, next) {
+export function authMiddleware(req, _, next) {
   const authorizationHeader = req.headers.authorization;
 
   try {
@@ -41,7 +41,7 @@ function authMiddleware(req, _, next) {
 // Express error middleware
 // Reference: https://expressjs.com/en/guide/error-handling.html#writing-error-handlers
 // eslint-disable-next-line no-unused-vars
-function errorMiddleware(error, req, res, next) {
+export function errorMiddleware(error, req, res, next) {
   if (error instanceof ClientError) {
     return res.status(error.statusCode).json({
       status_code: error.statusCode,
@@ -57,5 +57,3 @@ function errorMiddleware(error, req, res, next) {
     data: null,
   });
 }
-
-module.exports = { authMiddleware, errorMiddleware };

@@ -1,6 +1,6 @@
 # Funne API
 
-## Documentations
+## Documentation
 
 ### Environment Variabels
 
@@ -20,6 +20,13 @@ The following scripts are available:
 | `pnpm db:studio`   | Run prisma studio (_GUI Database explorer_)              |
 | `pnpm db:generate` | Generate artifacts for prisma client                     |
 | `pnpm format`      | Run code formating with prettier                         |
+
+### Google Service Authentication
+
+For some features using google APIs like `google vision api` should be authenticated first.
+
+- [Local Development with ADC](https://cloud.google.com/docs/authentication/provide-credentials-adc#local-dev)
+- On Google Cloud environment it will using service account.
 
 ### Development Guide
 

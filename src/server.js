@@ -5,6 +5,7 @@ import { errorMiddleware, authMiddleware } from './middleware.js';
 import { createUserHandler, getCurrentUserHandler } from './app/user.js';
 import { createAuthHandler } from './app/auth.js';
 import { extractTextFromImageHandler } from './app/vision.js';
+import { analyzeIngredientsHandler } from './app/ingredient.js';
 
 const PORT = process.env.PORT || 5000;
 
@@ -24,6 +25,7 @@ app.post(
   upload.single('image'),
   extractTextFromImageHandler
 );
+app.post('/ingredients/analyze', authMiddleware, analyzeIngredientsHandler);
 
 app.use(errorMiddleware);
 

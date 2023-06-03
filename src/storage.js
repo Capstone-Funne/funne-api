@@ -19,3 +19,10 @@ export async function uploadProfilePicture(file) {
     blobStream.end(file.buffer);
   });
 }
+
+export function getProfilePictureUrl(pictureId) {
+  if (!pictureId) return null;
+  const bucket = storage.bucket(process.env.GCS_USER_PICTURE_BUCKET);
+  const file = bucket.file(pictureId);
+  return file.publicUrl();
+}

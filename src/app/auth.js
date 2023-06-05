@@ -39,13 +39,11 @@ export async function createAuthHandler(req, res, next) {
       status_code: 200,
       message: 'Berhasil masuk',
       data: {
-        access_token: accessToken,
-        user: {
-          id: user.id,
-          email: user.email,
-          name: user.name,
-          picture: user.picture ?? getPictureByName(user.name),
-        },
+        token: accessToken,
+        id: user.id,
+        email: user.email,
+        name: user.name,
+        picture: user.picture ?? getPictureByName(user.name),
       },
     });
   } catch (error) {

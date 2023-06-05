@@ -21,3 +21,23 @@ model User {
 
   @@map("users")
 }
+
+enum PasswordResetStatus {
+  PENDING
+  INVALID
+  INVOKED
+
+  @@map("password_reset_status")
+}
+
+model PasswordResetTokens {
+  email     String              @db.VarChar(64)
+  token     String              @db.VarChar(32)
+  status    PasswordResetStatus @default(PENDING)
+  expired   DateTime            @default(dbgenerated("NOW() + interval '1 day'"))
+  createdAt DateTime            @default(now())
+  updatedAt DateTime            @updatedAt
+
+  @@id([email, token])
+  @@map("password_reset_tokens")
+}

@@ -26,3 +26,10 @@ export function getProfilePictureUrl(pictureId) {
   const file = bucket.file(pictureId);
   return file.publicUrl();
 }
+
+export function getProductPictureUrl(pictureId) {
+  if (!pictureId) return null;
+  const bucket = storage.bucket(process.env.GCS_PRODUCT_PICTURE_BUCKET);
+  const file = bucket.file(pictureId);
+  return file.publicUrl();
+}

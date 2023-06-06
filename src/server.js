@@ -6,6 +6,7 @@ import {
   createUserHandler,
   getCurrentUserHandler,
   createResetPasswordHandler,
+  renderResetPasswordPageHandler,
   editPasswordHandler,
 } from './app/user.js';
 import { createAuthHandler } from './app/auth.js';
@@ -33,6 +34,7 @@ app.post(
 app.post('/ingredients/analyze', authMiddleware, analyzeIngredientsHandler);
 app.post('/reset-password', createResetPasswordHandler);
 app.put('/passwords', editPasswordHandler);
+app.get('/reset-password', renderResetPasswordPageHandler);
 
 app.use(errorMiddleware);
 

@@ -15,6 +15,10 @@ const resetPasswordEmailTemplate = await fs.readFile(
   'src/templates/password-reset-email.ejs'
 );
 
+const resetPasswordPageTemplate = await fs.readFile(
+  'src/templates/password-reset-page.ejs'
+);
+
 export async function createUserHandler(req, res, next) {
   const payload = req.body;
 
@@ -179,4 +183,9 @@ export async function editPasswordHandler(req, res, next) {
   } catch (error) {
     return next(error);
   }
+}
+
+export async function renderResetPasswordPageHandler(req, res) {
+  const html = ejs.render(resetPasswordPageTemplate.toString());
+  res.send(html);
 }

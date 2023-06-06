@@ -2,7 +2,11 @@ import express from 'express';
 import multer from 'multer';
 
 import { errorMiddleware, authMiddleware } from './middleware.js';
-import { createUserHandler, getCurrentUserHandler } from './app/user.js';
+import {
+  createUserHandler,
+  getCurrentUserHandler,
+  createResetPasswordHandler,
+} from './app/user.js';
 import { createAuthHandler } from './app/auth.js';
 import { extractTextFromImageHandler } from './app/vision.js';
 import { analyzeIngredientsHandler } from './app/ingredient.js';
@@ -26,6 +30,7 @@ app.post(
   extractTextFromImageHandler
 );
 app.post('/ingredients/analyze', authMiddleware, analyzeIngredientsHandler);
+app.post('/reset-password', createResetPasswordHandler);
 
 app.use(errorMiddleware);
 

@@ -136,3 +136,47 @@ export async function createResetPasswordHandler(req, res, next) {
     return next(error);
   }
 }
+
+export async function editPasswordHandler(req, res, next) {
+  const payload = req.body;
+
+  try {
+    if (!payload.token) {
+      throw new InvariantError('Reset password token tidak ditemukan');
+    }
+
+    if (!payload.password || payload.password.length < 8) {
+      throw new InvariantError('Password minimal 8 karakter');
+    }
+
+    const token = await database.passwordResetTokens.findFirst({
+      where: { token: payload.token, status: PasswordResetStatus.PENDING },
+    });
+
+    if (token === null) {
+      throw new InvariantError('Reset password token tidak valid');
+    }
+
+    const hashPassword = await bcrypt.hash(payload.password, SALT_ROUNDS);
+
+    const updateUserPassword = database.user.update({
+      where: { id: token.userId },
+      data: { password: hashPassword },
+    });
+
+    const invalidateToken = database.passwordResetTokens.update({
+      where: { id: token.id },
+      data: { status: PasswordResetStatus.INVOKED },
+    });
+
+    await database.$transaction([updateUserPassword, invalidateToken]);
+
+    return res.status(200).json({
+      status_code: 200,
+      message: 'Berhasil mengubah password',
+      data: null,
+    });
+  } catch (error) {
+    return next(error);
+  }
+}

@@ -6,6 +6,7 @@ import {
   createUserHandler,
   getCurrentUserHandler,
   createResetPasswordHandler,
+  editPasswordHandler,
 } from './app/user.js';
 import { createAuthHandler } from './app/auth.js';
 import { extractTextFromImageHandler } from './app/vision.js';
@@ -31,6 +32,7 @@ app.post(
 );
 app.post('/ingredients/analyze', authMiddleware, analyzeIngredientsHandler);
 app.post('/reset-password', createResetPasswordHandler);
+app.put('/passwords', editPasswordHandler);
 
 app.use(errorMiddleware);
 

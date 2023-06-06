@@ -27,23 +27,25 @@ const upload = multer({
 
 app.use(express.json());
 
-app.post('/login', createAuthHandler);
-app.post('/users', createUserHandler);
-app.get('/users/me', authMiddleware, getCurrentUserHandler);
-app.get('/products', authMiddleware, getProductsHandler);
-app.put(
+const v1 = express.Router();
+v1.post('/auth', createAuthHandler);
+v1.post('/users', createUserHandler);
+v1.get('/users/me', authMiddleware, getCurrentUserHandler);
+v1.put(
   '/users/me',
   authMiddleware,
   upload.single('picture'),
   editCurrentUserHandler
 );
-app.post(
+v1.get('/products', authMiddleware, getProductsHandler);
+v1.post(
   '/visions/images',
   authMiddleware,
   upload.single('image'),
   extractTextFromImageHandler
 );
-app.post('/ingredients/analyze', authMiddleware, analyzeIngredientsHandler);
+v1.post('/ingredients/analyze', authMiddleware, analyzeIngredientsHandler);
+app.use('/api/v1', v1);
 
 app.use(errorMiddleware);
 

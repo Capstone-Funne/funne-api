@@ -10,14 +10,15 @@ datasource db {
 }
 
 model User {
-  id        String   @id @db.VarChar(64)
-  name      String   @db.VarChar(64)
-  email     String   @unique @db.VarChar(64)
-  password  String   @db.Text
-  picture   String?  @db.Text
-  gender    Int      @default(0) @db.SmallInt
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  id                  String                @id @db.VarChar(64)
+  name                String                @db.VarChar(64)
+  email               String                @unique @db.VarChar(64)
+  password            String                @db.Text
+  picture             String?               @db.Text
+  gender              Int                   @default(0) @db.SmallInt
+  createdAt           DateTime              @default(now())
+  updatedAt           DateTime              @updatedAt
+  PasswordResetTokens PasswordResetTokens[]
 
   @@map("users")
 }
@@ -31,13 +32,14 @@ enum PasswordResetStatus {
 }
 
 model PasswordResetTokens {
-  email     String              @db.VarChar(64)
-  token     String              @db.VarChar(32)
+  id        String              @id @db.VarChar(64)
+  user      User                @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId    String              @map("user_id") @db.VarChar(64)
+  token     String              @unique @db.VarChar(32)
   status    PasswordResetStatus @default(PENDING)
   expired   DateTime            @default(dbgenerated("NOW() + interval '1 day'"))
-  createdAt DateTime            @default(now())
-  updatedAt DateTime            @updatedAt
+  createdAt DateTime            @default(now()) @map("created_at")
+  updatedAt DateTime            @updatedAt @map("updated_at")
 
-  @@id([email, token])
   @@map("password_reset_tokens")
 }

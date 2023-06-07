@@ -1,5 +1,5 @@
 import { PrismaClient } from '@prisma/client';
-import { products } from './data.js';
+import { products, solutions } from './data.js';
 
 const prisma = new PrismaClient();
 
@@ -12,7 +12,15 @@ async function main() {
     })
   );
 
-  await Promise.all(productSeeds);
+  const solutionSeeds = solutions.map((solution) =>
+    prisma.solutions.upsert({
+      where: { id: solution.id },
+      update: {},
+      create: solution,
+    })
+  );
+
+  await Promise.all([...productSeeds, ...solutionSeeds]);
 }
 
 main()

@@ -1,9 +1,40 @@
+import axios from 'axios';
+
 import { InvariantError } from '../exception/invariant-error.js';
 
-// TODO: Implement ML Model to predict ingredient
-// eslint-disable-next-line no-unused-vars
-function predict(text) {
-  return Promise.resolve(1);
+const ML_MODEL_ENDPOINT = `${process.env.ML_SERVER_BASE_URL}/v1/models/funne:predict`;
+const ML_VOCABULARY_ENDPOINT =
+  'https://storage.googleapis.com/funne-machine-learning/vocabulary.json';
+
+const vocabulary = (await axios.get(ML_VOCABULARY_ENDPOINT)).data;
+
+function tokenize(text) {
+  return text
+    .toLowerCase()
+    .replace(/[^a-z0-9\s]/g, '')
+    .split(/\s+/);
+}
+
+async function predict(text) {
+  const tokens = tokenize(text);
+
+  const inputs = [];
+  for (let i = 0; i < tokens.length; i += 1) {
+    const token = tokens[i];
+    const idx = vocabulary.indexOf(token);
+    if (idx === -1) {
+      inputs.push(1);
+    } else {
+      inputs.push(idx);
+    }
+  }
+
+  const response = await axios.post(ML_MODEL_ENDPOINT, {
+    instances: [inputs],
+  });
+
+  const prediction = response.data.predictions[0][0];
+  return Math.round(prediction);
 }
 
 export async function analyzeIngredientsHandler(req, res, next) {

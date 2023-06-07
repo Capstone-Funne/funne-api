@@ -32,3 +32,11 @@ model Product {
 
   @@map("products")
 }
+
+model Solutions {
+  id          String  @id @db.VarChar(64)
+  title       String  @db.VarChar(128)
+  description String  @db.Text
+
+  @@map("solutions")
+}

@@ -34,7 +34,14 @@ steps:
       - '0'
       - '--max-instances'
       - '1'
-    secretEnv: ['DATABASE_URL', 'DIRECT_URL', 'JWT_SECRET']
+    secretEnv:
+      [
+        'DATABASE_URL',
+        'DIRECT_URL',
+        'JWT_SECRET',
+        'EMAIL_ADDRESS',
+        'EMAIL_PASSWORD',
+      ]
 images:
   - 'asia-southeast2-docker.pkg.dev/$PROJECT_ID/funne-api/funne-api-production:$COMMIT_SHA'
 availableSecrets:
@@ -45,3 +52,7 @@ availableSecrets:
       env: 'DIRECT_URL'
     - versionName: projects/$PROJECT_ID/secrets/funne-api-jwt-secret/versions/latest
       env: 'JWT_SECRET'
+    - versionName: projects/$PROJECT_ID/secrets/funne-api-email-address/versions/latest
+      env: 'EMAIL_ADDRESS'
+    - versionName: projects/$PROJECT_ID/secrets/funne-api-email-password/versions/latest
+      env: 'EMAIL_PASSWORD'

@@ -22,7 +22,7 @@ steps:
       - '--image'
       - 'us-central1-docker.pkg.dev/$PROJECT_ID/funne-api/funne-api-development:$COMMIT_SHA'
       - '--allow-unauthenticated'
-      - --service-account
+      - '--service-account'
       - 'funne-api-server-development@bangkit-capstone-c23-ps249.iam.gserviceaccount.com'
       - '--region'
       - 'us-central1'

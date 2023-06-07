@@ -22,7 +22,7 @@ steps:
       - '--image'
       - 'asia-southeast2-docker.pkg.dev/$PROJECT_ID/funne-api/funne-api-production:$COMMIT_SHA'
       - '--allow-unauthenticated'
-      - --service-account
+      - '--service-account'
       - 'funne-api-server-production@bangkit-capstone-c23-ps249.iam.gserviceaccount.com'
       - '--region'
       - 'asia-southeast2'

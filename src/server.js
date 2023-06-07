@@ -22,18 +22,21 @@ const upload = multer({ storage: multerStorage });
 
 app.use(express.json());
 
-app.post('/login', createAuthHandler);
-app.post('/users', createUserHandler);
-app.get('/users/me', authMiddleware, getCurrentUserHandler);
-app.post(
+const v1 = express.Router();
+v1.post('/auth', createAuthHandler);
+v1.post('/users', createUserHandler);
+v1.get('/users/me', authMiddleware, getCurrentUserHandler);
+v1.post(
   '/visions/images',
   authMiddleware,
   upload.single('image'),
   extractTextFromImageHandler
 );
-app.post('/ingredients/analyze', authMiddleware, analyzeIngredientsHandler);
-app.post('/reset-password', createResetPasswordHandler);
-app.put('/passwords', editPasswordHandler);
+v1.post('/ingredients/analyze', authMiddleware, analyzeIngredientsHandler);
+v1.post('/reset-password', createResetPasswordHandler);
+v1.put('/passwords', editPasswordHandler);
+app.use('/api/v1', v1);
+
 app.get('/reset-password', renderResetPasswordPageHandler);
 
 app.use(errorMiddleware);

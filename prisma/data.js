@@ -123,7 +123,7 @@ export const solutions = [
   {
     id: 'c2fb67f7-9270-40d9-92a4-7c2e908b67ba',
     title: 'Memperhatikan Kebersihan Kulit Kepala',
-    description: 'Menggunakan shampo anti ketombe',
+    description: 'Menggunakan shampo anti ketombe.',
   },
   {
     id: '7aecd932-0c01-447e-93e7-f76dcd4aa5a7',
@@ -135,13 +135,13 @@ export const solutions = [
     id: '6471d9f3-52ee-4b86-b46a-e9aa60d6e593',
     title: 'Mengenakan Pakaian Berbahan Katun',
     description:
-      'Pakaian berbahan katun mudah menyerap keringat sehingga dapat mengurangi pertumbuhan jerawat jamur',
+      'Pakaian berbahan katun mudah menyerap keringat sehingga dapat mengurangi pertumbuhan jerawat jamur.',
   },
   {
     id: '334d74dd-6b4b-4357-a433-81b52bed2a9a',
     title: 'Memperhatikan Pola Makan agar Seimbang',
     description:
-      'Pola makan yang bergizi dan seimbang adalah pola makan yang memperhatikan komposisi jenis makanan, teratur, tidak berlebihan, ataupun tidak kekurangan',
+      'Pola makan yang bergizi dan seimbang adalah pola makan yang memperhatikan komposisi jenis makanan, teratur, tidak berlebihan, ataupun tidak kekurangan.',
   },
   {
     id: 'db4dc301-8b41-43ce-8f39-2dc699f5dd47',

@@ -5,6 +5,7 @@ import { database } from '../database.js';
 import { InvariantError } from '../exception/invariant-error.js';
 import { EMAIL_REGEX, SALT_ROUNDS } from '../constant.js';
 import { getPictureByName } from '../utilities.js';
+import { getProfilePictureUrl, uploadProfilePicture } from '../storage.js';
 
 export async function createUserHandler(req, res, next) {
   const payload = req.body;
@@ -62,8 +63,37 @@ export async function getCurrentUserHandler(req, res, next) {
         email: user.email,
         name: user.name,
         gender: user.gender,
-        picture: user.picture ?? getPictureByName(user.name),
+        picture:
+          getProfilePictureUrl(user.picture) ?? getPictureByName(user.name),
       },
+    });
+  } catch (error) {
+    return next(error);
+  }
+}
+
+export async function editCurrentUserHandler(req, res, next) {
+  const payload = req.body;
+
+  try {
+    let pictureId;
+    if (req.file) {
+      pictureId = await uploadProfilePicture(req.file);
+    }
+
+    await database.user.update({
+      where: { id: req.user.id },
+      data: {
+        name: payload.name,
+        gender: payload.gender && parseInt(payload.gender, 10),
+        picture: pictureId,
+      },
+    });
+
+    return res.status(200).json({
+      status_code: 200,
+      message: 'OK',
+      data: null,
     });
   } catch (error) {
     return next(error);

@@ -23,6 +23,17 @@ model User {
   @@map("users")
 }
 
+model Product {
+  id          String @id @db.VarChar(64)
+  picture     String @db.Text
+  name        String @db.VarChar(64)
+  category    String @db.VarChar(64)
+  description String @db.Text
+  ingredients String @db.Text
+
+  @@map("products")
+}
+
 model History {
   id          String   @id @db.VarChar(64)
   user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)

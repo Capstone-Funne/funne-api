@@ -100,3 +100,60 @@ export const products = [
       'Water, Butylene Glycol, Glycerin, Disodium Succinate, Hydrolyzed Hyaluronic Acid, Hydroxyethycellulose, Methylparaben, PPG-10 Methyl Glucose Ether, Sodium, Acetylated Hyaluronate, Sodium Hyaluronate, Succinic Acid',
   },
 ];
+
+export const solutions = [
+  {
+    id: '14d8defd-5bf3-4603-8e6b-6694208ff366',
+    title: 'Menggunakan Obat Antijamur dalam Bentuk Salep',
+    description:
+      'Obat antijamur dalam bentuk krim atau salep yang mengandung ketoconazole atau clotrimazole.',
+  },
+  {
+    id: '8ee6e266-db8d-4262-8701-a2b89795de90',
+    title: 'Mengonsumsi Obat Antijamur dalam Bentuk Kapsul',
+    description:
+      'Obat antijamur dalam bentuk kapsul seperti Itraconazole atau Fluconazole.',
+  },
+  {
+    id: '386b8966-b683-4e15-8ed4-5d42f80abd85',
+    title: 'Menjaga Kebersihan Tempat Tidur',
+    description:
+      'Merapikan tempat tidur, mengganti seprai dan sarung bantal minimal seminggu sekali.',
+  },
+  {
+    id: 'c2fb67f7-9270-40d9-92a4-7c2e908b67ba',
+    title: 'Memperhatikan Kebersihan Kulit Kepala',
+    description: 'Menggunakan shampo anti ketombe.',
+  },
+  {
+    id: '7aecd932-0c01-447e-93e7-f76dcd4aa5a7',
+    title: 'Menghindari Pakaian yang Ketat',
+    description:
+      'Pakaian yang terlalu ketat dapat menyebabkan iritasi kulit, gatal dan infeksi jamur.',
+  },
+  {
+    id: '6471d9f3-52ee-4b86-b46a-e9aa60d6e593',
+    title: 'Mengenakan Pakaian Berbahan Katun',
+    description:
+      'Pakaian berbahan katun mudah menyerap keringat sehingga dapat mengurangi pertumbuhan jerawat jamur.',
+  },
+  {
+    id: '334d74dd-6b4b-4357-a433-81b52bed2a9a',
+    title: 'Memperhatikan Pola Makan agar Seimbang',
+    description:
+      'Pola makan yang bergizi dan seimbang adalah pola makan yang memperhatikan komposisi jenis makanan, teratur, tidak berlebihan, ataupun tidak kekurangan.',
+  },
+  {
+    id: 'db4dc301-8b41-43ce-8f39-2dc699f5dd47',
+    title: 'Konsultasi dengan Dokter Spesialis Kulit',
+    description:
+      'Apabila sudah merasa jerawat jamurnya tidak kunjung membaik, segera konsultasikan ke dokter spesialis kulit agar mendapatkan penanganan yang tepat untuk meredakan jerawat jamurnya.',
+  },
+  {
+    id: '791540ea-9292-4c9b-a9d3-4b0ce11fccf7',
+    title:
+      'Mandi dan Mengganti Pakaian setelah Beraktivitas Seharian atau Berolahraga',
+    description:
+      'Mandi yang bersih agar badan terasa segar kembali. Pakaian yang dipakai sehabis beraktivitas atau berolahraga harus diganti karena sudah basah dan banyak keringat.',
+  },
+];

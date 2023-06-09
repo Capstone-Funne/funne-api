@@ -11,6 +11,7 @@ import { createAuthHandler } from './app/auth.js';
 import { extractTextFromImageHandler } from './app/vision.js';
 import { analyzeIngredientsHandler } from './app/ingredient.js';
 import { getProductsHandler } from './app/product.js';
+import { getSolutionsHandler } from './app/solution.js';
 import { getUserHistoryHandler } from './app/history.js';
 
 const PORT = process.env.PORT || 5000;
@@ -39,6 +40,7 @@ v1.put(
   editCurrentUserHandler
 );
 v1.get('/products', authMiddleware, getProductsHandler);
+v1.get('/solutions', authMiddleware, getSolutionsHandler);
 v1.post(
   '/visions/images',
   authMiddleware,

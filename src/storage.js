@@ -20,9 +20,11 @@ export async function uploadIngredientsPicture(file) {
   });
 }
 
-export function getIngredientsPictureUrl(pictureId) {
+export async function getIngredientsPictureUrl(pictureId) {
   if (!pictureId) return null;
   const bucket = storage.bucket(process.env.GCS_INGREDIENTS_PICTURE_BUCKET);
   const file = bucket.file(pictureId);
+  const [isExist] = await file.exists();
+  if (!isExist) return null;
   return file.publicUrl();
 }

@@ -35,6 +35,8 @@ steps:
       - '--max-instances'
       - '1'
     secretEnv: ['DATABASE_URL', 'DIRECT_URL', 'JWT_SECRET']
+options:
+  logging: CLOUD_LOGGING_ONLY
 images:
   - 'asia-southeast2-docker.pkg.dev/$PROJECT_ID/funne-api/funne-api-production:$COMMIT_SHA'
 availableSecrets:

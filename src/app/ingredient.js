@@ -3,7 +3,7 @@ import { v4 as uuid } from 'uuid';
 
 import { database } from '../database.js';
 import { InvariantError } from '../exception/invariant-error.js';
-import { getIngredientsPictureUrl } from '../storage.js';
+import { checkIsIngredientsPictureExists } from '../storage.js';
 
 const ML_MODEL_ENDPOINT = `${process.env.ML_SERVER_BASE_URL}/v1/models/funne:predict`;
 const ML_VOCABULARY_ENDPOINT =
@@ -66,14 +66,16 @@ export async function analyzeIngredientsHandler(req, res, next) {
       }
     });
 
-    const isPictureExist = await getIngredientsPictureUrl(payload.image_id);
+    const isPictureExist = await checkIsIngredientsPictureExists(
+      payload.image_id
+    );
 
     await database.history.create({
       data: {
         id: uuid(),
         userId: req.user.id,
         ingredients: payload.ingredients,
-        picture: isPictureExist && payload.image_id,
+        picture: isPictureExist ? payload.image_id : null,
         results: ingredientList,
       },
     });

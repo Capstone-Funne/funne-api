@@ -20,11 +20,17 @@ export async function uploadIngredientsPicture(file) {
   });
 }
 
-export async function getIngredientsPictureUrl(pictureId) {
+export function getIngredientsPictureUrl(pictureId) {
   if (!pictureId) return null;
   const bucket = storage.bucket(process.env.GCS_INGREDIENTS_PICTURE_BUCKET);
   const file = bucket.file(pictureId);
-  const [isExist] = await file.exists();
-  if (!isExist) return null;
   return file.publicUrl();
+}
+
+export async function checkIsIngredientsPictureExists(pictureId) {
+  if (!pictureId) return false;
+  const bucket = storage.bucket(process.env.GCS_INGREDIENTS_PICTURE_BUCKET);
+  const file = bucket.file(pictureId);
+  const [exists] = await file.exists();
+  return exists;
 }

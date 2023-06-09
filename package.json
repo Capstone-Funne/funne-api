@@ -6,7 +6,7 @@
   "main": "index.js",
   "scripts": {
     "start": "node src/server.js",
-    "start:prod": "prisma migrate deploy && node src/server.js",
+    "start:prod": "prisma migrate deploy && prisma db seed && node src/server.js",
     "db:migrate": "prisma migrate dev",
     "db:generate": "prisma generate",
     "db:studio": "prisma studio",

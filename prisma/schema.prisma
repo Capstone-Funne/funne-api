@@ -10,33 +10,47 @@ datasource db {
 }
 
 model User {
-  id        String   @id @db.VarChar(64)
-  name      String   @db.VarChar(64)
-  email     String   @unique @db.VarChar(64)
-  password  String   @db.Text
-  picture   String?  @db.Text
-  gender    Int      @default(0) @db.SmallInt
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  id        String    @id @db.VarChar(64)
+  name      String    @db.VarChar(64)
+  email     String    @unique @db.VarChar(64)
+  password  String    @db.Text
+  picture   String?   @db.Text
+  gender    Int       @default(0) @db.SmallInt
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  History   History[]
 
   @@map("users")
 }
 
 model Product {
-  id          String  @id @db.VarChar(64)
-  picture     String  @db.Text
-  name        String  @db.VarChar(64)
-  category    String  @db.VarChar(64)
-  description String  @db.Text
-  ingredients String  @db.Text
+  id          String @id @db.VarChar(64)
+  picture     String @db.Text
+  name        String @db.VarChar(64)
+  category    String @db.VarChar(64)
+  description String @db.Text
+  ingredients String @db.Text
 
   @@map("products")
 }
 
 model Solutions {
-  id          String  @id @db.VarChar(64)
-  title       String  @db.VarChar(128)
-  description String  @db.Text
+  id          String @id @db.VarChar(64)
+  title       String @db.VarChar(128)
+  description String @db.Text
 
   @@map("solutions")
+}
+
+model History {
+  id          String   @id @db.VarChar(64)
+  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId      String   @map("user_id") @db.VarChar(64)
+  ingredients String   @db.Text
+  picture     String?  @db.Text
+  results     Json     @db.Json
+  createdAt   DateTime @default(now()) @map("created_at")
+  updatedAt   DateTime @updatedAt @map("updated_at")
+
+  @@map("histories")
 }

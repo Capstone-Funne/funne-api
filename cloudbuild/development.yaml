@@ -1,0 +1,38 @@
+steps:
+  - name: 'gcr.io/cloud-builders/docker'
+    args:
+      [
+        'build',
+        '-t',
+        'us-central1-docker.pkg.dev/$PROJECT_ID/funne-api/funne-api-development:$COMMIT_SHA',
+        '.',
+      ]
+  - name: 'gcr.io/cloud-builders/docker'
+    args:
+      [
+        'push',
+        'us-central1-docker.pkg.dev/$PROJECT_ID/funne-api/funne-api-development:$COMMIT_SHA',
+      ]
+  - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
+    entrypoint: gcloud
+    args:
+      - 'run'
+      - 'deploy'
+      - 'funne-api-development'
+      - '--image'
+      - 'us-central1-docker.pkg.dev/$PROJECT_ID/funne-api/funne-api-development:$COMMIT_SHA'
+      - '--allow-unauthenticated'
+      - --service-account
+      - 'funne-api-server-development@bangkit-capstone-c23-ps249.iam.gserviceaccount.com'
+      - '--region'
+      - 'us-central1'
+      - '--cpu'
+      - '1'
+      - '--memory'
+      - '1G'
+      - '--min-instances'
+      - '0'
+      - '--max-instances'
+      - '1'
+images:
+  - 'us-central1-docker.pkg.dev/$PROJECT_ID/funne-api/funne-api-development:$COMMIT_SHA'

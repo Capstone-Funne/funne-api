@@ -6,6 +6,7 @@ import { createUserHandler, getCurrentUserHandler } from './app/user.js';
 import { createAuthHandler } from './app/auth.js';
 import { extractTextFromImageHandler } from './app/vision.js';
 import { analyzeIngredientsHandler } from './app/ingredient.js';
+import { getUserHistoryHandler } from './app/history.js';
 
 const PORT = process.env.PORT || 5000;
 
@@ -27,6 +28,7 @@ v1.post(
   extractTextFromImageHandler
 );
 v1.post('/ingredients/analyze', authMiddleware, analyzeIngredientsHandler);
+v1.get('/histories', authMiddleware, getUserHistoryHandler);
 app.use('/api/v1', v1);
 
 app.use(errorMiddleware);

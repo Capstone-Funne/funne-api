@@ -44,6 +44,14 @@ export function authMiddleware(req, _, next) {
 // Reference: https://expressjs.com/en/guide/error-handling.html#writing-error-handlers
 // eslint-disable-next-line no-unused-vars
 export function errorMiddleware(error, req, res, next) {
+  if (error instanceof SyntaxError && error.status === 400 && 'body' in error) {
+    return res.status(400).json({
+      status_code: 400,
+      message: 'Invalid request body format',
+      data: null,
+    });
+  }
+
   if (error instanceof ClientError) {
     return res.status(error.statusCode).json({
       status_code: error.statusCode,

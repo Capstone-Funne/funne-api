@@ -1,4 +1,5 @@
 import jwt from 'jsonwebtoken';
+import { MulterError } from 'multer';
 
 import { ClientError } from './exception/client-error.js';
 import { AuthenticationError } from './exception/authentication-error.js';
@@ -47,6 +48,19 @@ export function errorMiddleware(error, req, res, next) {
     return res.status(error.statusCode).json({
       status_code: error.statusCode,
       message: error.message,
+      data: null,
+    });
+  }
+
+  if (error instanceof MulterError) {
+    const message = {
+      LIMIT_FILE_SIZE: 'Ukuran file terlalu besar, maksimal 5MB',
+      LIMIT_UNEXPECTED_FILE: `Field ${error.field} tidak valid`,
+    };
+
+    return res.status(400).json({
+      status_code: 400,
+      message: message[error.code] ?? error.message,
       data: null,
     });
   }

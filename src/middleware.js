@@ -3,6 +3,7 @@ import { MulterError } from 'multer';
 
 import { ClientError } from './exception/client-error.js';
 import { AuthenticationError } from './exception/authentication-error.js';
+import { errors } from './operations.js';
 
 export function authMiddleware(req, _, next) {
   const authorizationHeader = req.headers.authorization;
@@ -64,7 +65,7 @@ export function errorMiddleware(error, req, res, next) {
     });
   }
 
-  console.error(error);
+  errors.express(error, req, res, next);
   return res.status(500).json({
     status_code: 500,
     message: 'Internal Server Error',

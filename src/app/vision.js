@@ -16,6 +16,10 @@ export async function extractTextFromImageHandler(req, res, next) {
     const [result] = await client.textDetection(file.buffer);
     const detection = result.fullTextAnnotation;
 
+    if (detection === null) {
+      throw new InvariantError('Gambar tidak terdapat text');
+    }
+
     const imageId = await uploadIngredientsPicture(file);
 
     return res.status(200).json({

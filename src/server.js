@@ -1,5 +1,4 @@
 import express from 'express';
-import multer from 'multer';
 
 import { errorMiddleware, authMiddleware } from './middleware.js';
 import {
@@ -13,19 +12,11 @@ import { analyzeIngredientsHandler } from './app/ingredient.js';
 import { getProductsHandler } from './app/product.js';
 import { getSolutionsHandler } from './app/solution.js';
 import { getUserHistoryHandler } from './app/history.js';
+import { upload } from './uploader.js';
 
 const PORT = process.env.PORT || 5000;
 
 const app = express();
-
-const multerStorage = multer.memoryStorage();
-const upload = multer({
-  storage: multerStorage,
-  limits: {
-    // no larger than 5mb
-    fileSize: 5 * 1024 * 1024,
-  },
-});
 
 app.use(express.json());
 

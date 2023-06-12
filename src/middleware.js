@@ -1,7 +1,9 @@
 import jwt from 'jsonwebtoken';
+import { MulterError } from 'multer';
 
 import { ClientError } from './exception/client-error.js';
 import { AuthenticationError } from './exception/authentication-error.js';
+import { errors } from './operations.js';
 
 export function authMiddleware(req, _, next) {
   const authorizationHeader = req.headers.authorization;
@@ -42,6 +44,14 @@ export function authMiddleware(req, _, next) {
 // Reference: https://expressjs.com/en/guide/error-handling.html#writing-error-handlers
 // eslint-disable-next-line no-unused-vars
 export function errorMiddleware(error, req, res, next) {
+  if (error instanceof SyntaxError && error.status === 400 && 'body' in error) {
+    return res.status(400).json({
+      status_code: 400,
+      message: 'Invalid request body format',
+      data: null,
+    });
+  }
+
   if (error instanceof ClientError) {
     return res.status(error.statusCode).json({
       status_code: error.statusCode,
@@ -50,7 +60,20 @@ export function errorMiddleware(error, req, res, next) {
     });
   }
 
-  console.error(error);
+  if (error instanceof MulterError) {
+    const message = {
+      LIMIT_FILE_SIZE: 'Ukuran file terlalu besar, maksimal 5MB',
+      LIMIT_UNEXPECTED_FILE: `Field ${error.field} tidak valid`,
+    };
+
+    return res.status(400).json({
+      status_code: 400,
+      message: message[error.code] ?? error.message,
+      data: null,
+    });
+  }
+
+  errors.express(error, req, res, next);
   return res.status(500).json({
     status_code: 500,
     message: 'Internal Server Error',
